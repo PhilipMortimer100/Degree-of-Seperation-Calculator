@@ -504,7 +504,7 @@ public class Interface extends javax.swing.JFrame {
         String text="";
         String newLine=System.lineSeparator();
         String []movDet;
-        String prevAct="";
+        String prevAct=starOneId[0];
         for(int j=path.length-2;j>=0;j--){
             if(j==path.length-2){
                 movDet=Search.searchForRecordWithPrimaryKeyAtNoughtElement(moviesFile,path[j+1].filmId);
@@ -517,13 +517,21 @@ public class Interface extends javax.swing.JFrame {
             }else{
                 String act=Search.searchForRecordWithPrimaryKeyAtNoughtElement(peopleFile,getLinkingActors(path[j].getStarsInFilm(), path[j+1].getStarsInFilm()))[1];
                 movDet=Search.searchForRecordWithPrimaryKeyAtNoughtElement(moviesFile,path[j+1].getFilmId());
-                text=text+newLine+prevAct+" was in "+movDet[1]+" released in "+movDet[2];
+                if(text.equals("")){
+                    text=prevAct+" was in "+movDet[1]+" released in "+movDet[2];
+                }else{
+                    text=text+newLine+prevAct+" was in "+movDet[1]+" released in "+movDet[2];
+                }
                 text=text+newLine+act+" was in "+movDet[1]+" released in "+movDet[2];
                 prevAct=act;
             }
         }
         movDet=Search.searchForRecordWithPrimaryKeyAtNoughtElement(moviesFile,path[0].getFilmId());
-        text =text+newLine+prevAct+" was in "+movDet[1]+" released in "+movDet[2];
+        if(text.equals("")){
+            text =text+prevAct+" was in "+movDet[1]+" released in "+movDet[2];
+        }else{
+            text =text+newLine+prevAct+" was in "+movDet[1]+" released in "+movDet[2];
+        }
         text =text+newLine+starTwoId[0]+" was in "+movDet[1]+" released in "+movDet[2];
         time = System.currentTimeMillis()-time;
         text = text+newLine+"Time explored (seconds): "+time/1000.0;
